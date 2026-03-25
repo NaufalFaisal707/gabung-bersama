@@ -1,5 +1,6 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { instrument } from "@socket.io/admin-ui";
 
 // config
 const PORT = process.env.PORT || 3000;
@@ -8,9 +9,13 @@ const PORT = process.env.PORT || 3000;
 const server = createServer();
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: ["https://admin.socket.io", "http://localhost:5173"],
+    credentials: true,
   },
 });
+
+// admin-ui instrumentation
+instrument(io, { auth: false });
 
 // socket.io event handlers
 io.on("connection", (socket) => {
