@@ -1,19 +1,11 @@
-import cors from "cors";
-import express from "express";
-import http from "http";
+import { createServer } from "http";
 import { Server } from "socket.io";
 
 // config
 const PORT = process.env.PORT || 3000;
 
-// initialize express app
-const app = express();
-const server = http.createServer(app);
-
-// express middleware
-app.use(cors());
-
 // initialize socket.io
+const server = createServer();
 const io = new Server(server, {
   cors: {
     origin: "*",
