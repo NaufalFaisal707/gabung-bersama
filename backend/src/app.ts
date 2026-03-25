@@ -15,7 +15,9 @@ const io = new Server(server, {
 });
 
 // admin-ui instrumentation
-instrument(io, { auth: false });
+if (process.env.NODE_ENV === "development") {
+  instrument(io, { auth: false });
+}
 
 // socket.io event handlers
 io.on("connection", (socket) => {
