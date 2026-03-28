@@ -9,7 +9,11 @@ const PORT = process.env.PORT || 3000;
 const server = createServer();
 const io = new Server(server, {
   cors: {
-    origin: ["https://admin.socket.io", "http://localhost:5173"],
+    origin: [
+      "https://admin.socket.io",
+      "http://localhost:5173",
+      "http://localhost:4173",
+    ],
     credentials: true,
   },
 });
@@ -21,11 +25,23 @@ if (process.env.NODE_ENV === "development") {
 
 // socket.io event handlers
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  console.log(`a user ${socket.id} connected`);
 
   socket.on("disconnect", () => {
-    console.log("user disconnected");
+    console.log(`user ${socket.id} disconnected`);
   });
+
+  // receive notification from client
+  socket.on("push:notification", (notification) => {});
+
+  // sync notification from client
+  socket.on("sync:notification", (notification) => {});
+
+  // receive message from client
+  socket.on("push:message", (message) => {});
+
+  // sync message from client
+  socket.on("sync:message", (message) => {});
 });
 
 // start server
